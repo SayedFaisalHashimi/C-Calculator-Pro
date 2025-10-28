@@ -9,13 +9,15 @@ int main() {
 
     printf("This is a basic calculator.\n\n");
 
+    while (1) {
     printf("Enter number 1: ");
-    scanf("%d", &x);
+    if(scanf("%d", &x) != 1 ) break;
 
     printf("Enter number 2: ");
-    scanf("%d", &y);
+    if(scanf("%d", &y) != 1 ) break;
 
     printf("\nSelect operation:\n");
+    printf("0. Exit\n");
     printf("1. Sum\n");
     printf("2. Subtraction\n");
     printf("3. Multiplication\n");
@@ -27,14 +29,19 @@ int main() {
 
 
     printf("Enter your choice: ");
-    scanf("%d", &choice);
+    if(scanf("%d", &choice) != 1 ) break;
+
+    if (choice == 0) {
+            printf("Exiting calculator. Goodbye!\n");
+            break;
+        }
 
     // Calculate results
     sum_val = x + y;
     sub_val = x - y;
     mul_val = x * y;
 
-    
+
     if (y != 0) {
         div_val = (double)x / (double)y;
         mod_val = x % y;
@@ -63,7 +70,7 @@ int main() {
             if (y == 0) {
                 printf("Invalid input: division by zero is not allowed.\n");
             } else {
-                printf("Division is: %d\n", div_val);
+                printf("Division is: %f\n", div_val);
             }
             break;
         case 5:
@@ -93,6 +100,8 @@ int main() {
         default:
             printf("Invalid choice! Please select 1-8.\n");
     }
+ 
+  }   
 
-    return 0;
+  return 0;
 }
