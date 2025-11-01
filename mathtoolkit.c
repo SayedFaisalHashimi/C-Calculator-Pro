@@ -7,33 +7,35 @@
 #endif
 
 
-void sum(int x, int y);
-void sub(int x, int y);
-void mul(int x, int y);
-void divi(int x, int y);
-void mod(int x, int y);
-void powe(int x, int y);
-void sqr_x(int x, int y);
-void sqr_y(int x, int y);
-void avg(int x, int y);
-void fac_x(int x, int y);
-void fac_y(int x, int y);
-void tri(int x, int y);
-void rad(int x, int y);
-void deg(int x, int y);
-void sin_x(int x, int y);
-void cos_x(int x, int y);
-void tan_x(int x, int y);
-void sin_y(int x, int y);
-void cos_y(int x, int y);
-void tan_y(int x, int y);
+void sum(int   arr[], int n);
+void sub(int   arr[], int n);
+void mul(int   arr[], int n);
+void divi(int  arr[], int n);
+void mod(int   arr[], int n);
+void powe(int  arr[], int n);
+void sqr_x(int arr[], int n);
+void sqr_y(int arr[], int n);
+void avg(int   arr[], int n);
+void fac_x(int arr[], int n);
+void fac_y(int arr[], int n);
+void tri(int   arr[], int n);
+void rad(int   arr[], int n);
+void deg(int   arr[], int n);
+void sin_x(int arr[], int n);
+void cos_x(int arr[], int n);
+void tan_x(int arr[], int n);
+void sin_y(int arr[], int n);
+void cos_y(int arr[], int n);
+void tan_y(int arr[], int n);
 
 
 
 int main(void) {
-    int x, y, choice;
+    int choice;
+    
 
-    void (*ptr[20])(int, int) = {
+    {
+    void (*ptr[20])(int [], int) = {
         NULL,
         sum,
         sub,
@@ -55,15 +57,22 @@ int main(void) {
         cos_y,
         tan_y
     };
-
+    
     printf("This is a basic calculator.\n\n");
 
     while (1) {
-    printf("Enter number 1: ");
-    if(scanf("%d", &x) != 1 ) break;
 
-    printf("Enter number 2: ");
-    if(scanf("%d", &y) != 1 ) break;
+        int n;
+        printf("How many numbers do you want to enter? ");
+        if (scanf("%d", &n) != 1 || n <= 0) break;
+
+        int numbers[n];
+        for (int i = 0; i < n; i++) {
+            printf("Enter number %d: ", i + 1);
+            if (scanf("%d", &numbers[i]) != 1) break;
+        }
+
+    
 
     printf("\nSelect operation:\n");
     printf("0. Exit\n");
@@ -104,157 +113,155 @@ int main(void) {
             continue;
         }
 
-    (*ptr[choice])(x, y);
+    (*ptr[choice])(numbers, n);
         printf("\n");
     }
-
+  }
     return 0;
+    
 }
 
 
 
 
-void sum(int x, int y)
+void sum(int arr[], int n)
 {
-    printf("Sum is: %d\n", x + y);
+    int total = 0;
+    for (int i = 0; i < n; i++) total += arr[i];
+    printf("Sum is: %d\n", total);
 }
 
-void sub(int x, int y)
+void sub(int arr[], int n)
 {
-    printf("Subtraction is: %d\n", x - y);
+    if (n == 0) return;
+    int total = arr[0];
+    for (int i = 1; i < n; i++) total -= arr[i];
+    printf("Subtraction is: %d\n", total);
 }
 
-void mul(int x, int y)
+void mul(int arr[], int n)
 {
-    printf("Multiplication is: %d\n", x * y);
+    int total = 1;
+    for (int i = 0; i < n; i++) total *= arr[i];
+    printf("Multiplication is: %d\n", total);
 }
 
-void divi(int x, int y)
+void divi(int arr[], int n)
 {
-    if (y != 0)
-        printf("Division is: %f\n", (double)x / y);
-    else
-        printf("Invalid input: division by zero is not allowed.\n");
-}
-
-void mod(int x, int y)
-{
-    if (y != 0)
-        printf("Modulus is: %d\n", x % y);
-    else
-        printf("Invalid input: modulus by zero is not allowed.\n");
-}
-
-void powe(int x, int y)
-{
-    printf("Power (x^y) is: %.6g\n", pow((double)x, (double)y));
-}
-
-void sqr_x(int x, int y)
-{
-    double s = (x >= 0) ? sqrt((double)x) : NAN;
-    if (!isnan(s))
-        printf("Square root of %d is: %.6g\n", x, s);
-    else
-        printf("Square root of %d is undefined (negative)\n", x);
-}
-
-void sqr_y(int x, int y)
-{
-    double s = (y >= 0) ? sqrt((double)y) : NAN;
-    if (!isnan(s))
-        printf("Square root of %d is: %.6g\n", y, s);
-    else
-        printf("Square root of %d is undefined (negative)\n", y);
-}
-
-void avg(int x, int y)
-{
-    printf("Average is: %.6g\n", (x + y) / 2.0);
-}
-
-void fac_x(int x, int y)
-{
-    if (x < 0) {
-        printf("Factorial of %d is undefined (negative)\n", x);
-        return;
+    if (n == 0) return;
+    double total = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] == 0) { printf("Division by zero!\n"); return; }
+        total /= arr[i];
     }
-    unsigned long long f = 1;
-    for (int i = 1; i <= x; i++)
-        f *= i;
-    printf("Factorial of %d is: %llu\n", x, f);
+    printf("Division result: %.6g\n", total);
 }
 
-void fac_y(int x, int y)
+void mod(int arr[], int n)
 {
-    if (y < 0) {
-        printf("Factorial of %d is undefined (negative)\n", y);
-        return;
+    if (n == 0) return;
+    int total = arr[0];
+    for (int i = 1; i < n; i++) {
+        if (arr[i] == 0) { printf("Modulus by zero!\n"); return; }
+        total %= arr[i];
     }
-    unsigned long long f = 1;
-    for (int i = 1; i <= y; i++)
-        f *= i;
-    printf("Factorial of %d is: %llu\n", y, f);
+    printf("Modulus result: %d\n", total);
 }
 
-void tri(int x, int y)
+void powe(int arr[], int n)
 {
-    double rx = x * M_PI / 180.0;
-    double ry = y * M_PI / 180.0;
-    printf("Trigonometry of %d degrees: sin=%.6g, cos=%.6g, tan=%.6g\n", x, sin(rx), cos(rx), tan(rx));
-    printf("Trigonometry of %d degrees: sin=%.6g, cos=%.6g, tan=%.6g\n", y, sin(ry), cos(ry), tan(ry));
+    if (n == 0) return;
+    double total = arr[0];
+    for (int i = 1; i < n; i++) total = pow(total, arr[i]);
+    printf("Power result: %.6g\n", total);
 }
 
-void rad(int x, int y)
+void sqr_x(int arr[], int n)
 {
-    double rx = x * M_PI / 180.0;
-    double ry = y * M_PI / 180.0;
-    printf("%d degrees = %.6g radians\n", x, rx);
-    printf("%d degrees = %.6g radians\n", y, ry);
-    printf("%.6g radians = %.6g degrees\n", rx, rx * 180.0 / M_PI);
-    printf("%.6g radians = %.6g degrees\n", ry, ry * 180.0 / M_PI);
+    for (int i = 0; i < n; i++) {
+        if (arr[i] < 0) printf("Square root of %d is undefined\n", arr[i]);
+        else printf("Square root of %d: %.6g\n", arr[i], sqrt(arr[i]));
+    }
 }
 
-void deg(int x, int y)
+void sqr_y(int arr[], int n)
 {
-    double dx = (double)x * 180.0 / M_PI;
-    double dy = (double)y * 180.0 / M_PI;
-    printf("%d (interpreted as radians) = %.6g degrees\n", x, dx);
-    printf("%d (interpreted as radians) = %.6g degrees\n", y, dy);
+    { sqr_x(arr, n); }
 }
 
-void sin_x(int x, int y)
+void avg(int arr[], int n)
 {
-    double rad_x = x * M_PI / 180.0;
-    printf("sin(%d degrees) = %.6g\n", x, sin(rad_x));
+    if (n == 0) return;
+    double total = 0;
+    for (int i = 0; i < n; i++) total += arr[i];
+    printf("Average is: %.6g\n", total / n);
 }
 
-void cos_x(int x, int y)
+void fac_x(int arr[], int n)
 {
-    double rad_x = x * M_PI / 180.0;
-    printf("cos(%d degrees) = %.6g\n", x, cos(rad_x));
+    for (int i = 0; i < n; i++) {
+        if (arr[i] < 0  || arr[i]>20) { printf("Factorial of %d is undefined\n", arr[i]); continue; }
+        unsigned long long f = 1;
+        for (int j = 1; j <= arr[i]; j++) f *= j;
+        printf("Factorial of %d: %llu\n", arr[i], f);
+    }
 }
 
-void tan_x(int x, int y)
+void fac_y(int arr[], int n)
 {
-    double rad_x = x * M_PI / 180.0;
-    printf("tan(%d degrees) = %.6g\n", x, tan(rad_x));
+     fac_x(arr, n);
 }
 
-void sin_y(int x, int y)
+void tri(int arr[], int n)
 {
-    double rad_y = y * M_PI / 180.0;
-    printf("sin(%d degrees) = %.6g\n", y, sin(rad_y));
+    for (int i = 0; i < n; i++) {
+        double rad = arr[i] * M_PI / 180.0;
+        printf("Trigonometry of %d degrees: sin=%.6g cos=%.6g tan=%.6g\n", arr[i], sin(rad), cos(rad), tan(rad));
+    }
 }
 
-void cos_y(int x, int y)
+void rad(int arr[], int n)
 {
-    double rad_y = y * M_PI / 180.0;
-    printf("cos(%d degrees) = %.6g\n", y, cos(rad_y));
+    for (int i = 0; i < n; i++) {
+        double r = arr[i] * M_PI / 180.0;
+        printf("%d degrees = %.6g radians, %.6g radians = %.6g degrees\n", arr[i], r, r, r * 180.0 / M_PI);
+    }
 }
 
-void tan_y(int x, int y)
+void deg(int arr[], int n)
 {
-    double rad_y = y * M_PI / 180.0;
-    printf("tan(%d degrees) = %.6g\n", y, tan(rad_y));
+    rad(arr, n);
+}
+
+void sin_x(int arr[], int n)
+{
+    for (int i = 0; i < n; i++) 
+    printf("sin(%d degrees) = %.6g\n", arr[i], sin(arr[i]*M_PI/180));
+}
+
+void cos_x(int arr[], int n)
+{
+    for (int i = 0; i < n; i++) 
+    printf("cos(%d degrees) = %.6g\n", arr[i], cos(arr[i]*M_PI/180));
+}
+
+void tan_x(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+     printf("tan(%d degrees) = %.6g\n", arr[i], tan(arr[i]*M_PI/180));
+}
+
+void sin_y(int arr[], int n)
+{
+    sin_x(arr, n);
+}
+
+void cos_y(int arr[], int n)
+{
+    cos_x(arr, n);
+}
+
+void tan_y(int arr[], int n)
+{
+    tan_x(arr, n);
 }
